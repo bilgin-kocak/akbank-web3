@@ -1,8 +1,14 @@
 require('@nomicfoundation/hardhat-toolbox');
 require('dotenv').config();
+require('hardhat-abi-exporter');
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
+  abiExporter: {
+    path: './abi',
+    clear: false,
+    flat: true,
+  },
   solidity: '0.8.17',
   networks: {
     fuji: {

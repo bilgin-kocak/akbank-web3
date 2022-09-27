@@ -2,14 +2,15 @@
   "name": "hardhat-project",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile":"npx hardhat compile",
-    "deploy":"npx hardhat run scripts/deploy.js --network mumbai"
+    "compile": "npx hardhat compile",
+    "deploy": "npx hardhat run scripts/deploy.js --network mumbai"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.3",
     "chai": "^4.3.6",
     "dotenv": "^16.0.2",
     "ethers": "^5.7.1",
+    "hardhat-abi-exporter": "^2.10.0",
     "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
