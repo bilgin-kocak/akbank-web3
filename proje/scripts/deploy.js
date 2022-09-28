@@ -34,9 +34,9 @@ async function main() {
 
   const Course2 = await hre.ethers.getContractFactory('Course');
   course2 = await Course2.deploy(
-    'Avalanche Course',
+    'Polygon Course',
     courseMoney.address,
-    ethers.utils.parseEther('100'),
+    ethers.utils.parseEther('50'),
     2,
     courseRegistrar.address
   );
