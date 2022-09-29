@@ -52,6 +52,14 @@ contract Course {
         return (false, 0);
     }
 
+    // This function check whether given addess is graduated from this course
+    function isGraduated(address _target) public view returns (bool) {
+        for (uint256 i = 0; i < cohort.length; i++) {
+            if (cohort[i].wallet == _target) return cohort[i].completed;
+        }
+        return false;
+    }
+
     // Register the student
     function register(uint256 amount) external payable {
         require(open == true, "The cohort is now closed, try again next time!");
