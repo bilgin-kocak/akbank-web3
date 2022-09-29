@@ -24,25 +24,37 @@ function MainView() {
     }
   }, [account, chainId]);
 
-  if (status === 'initializing')
-    return <div>Synchronisation with MetaMask ongoing...</div>;
+  const accountRender = () => {
+    if (status === 'initializing')
+      return <div>Synchronisation with MetaMask ongoing...</div>;
 
-  if (status === 'unavailable') return <div>MetaMask not available :(</div>;
+    if (status === 'unavailable') return <div>MetaMask not available :(</div>;
 
-  if (status === 'notConnected')
-    return <button onClick={connect}>Connect to MetaMask</button>;
+    if (status === 'notConnected')
+      return (
+        <button className="btn btn-primary" onClick={connect}>
+          Connect to MetaMask
+        </button>
+      );
 
-  if (status === 'connecting') return <div>Connecting...</div>;
+    if (status === 'connecting') return <div>Connecting...</div>;
 
-  if (status === 'connected')
-    return (
-      <div>
-        {/* Connected account {account} on chain ID {chainId} */}
-        <CourseView />
-      </div>
-    );
+    if (status === 'connected')
+      return (
+        <div>
+          {/* Connected account {account} on chain ID {chainId} */}
+          <CourseView />
+        </div>
+      );
 
-  return null;
+    return null;
+  };
+
+  return (
+    <div className="container" style={{ paddingTop: '50px' }}>
+      <center>{accountRender()}</center>
+    </div>
+  );
 }
 
 export default MainView;

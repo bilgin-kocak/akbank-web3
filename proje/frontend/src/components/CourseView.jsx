@@ -2,6 +2,8 @@ import CourseCard from './CourseCard';
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { useMetaMask } from 'metamask-react';
+import avalancheLogo from '../assets/avalanche-avax-logo.svg';
+import polygonLogo from '../assets/polygon-matic-logo.svg';
 
 const addresses = require('../contracts/address.json');
 const courseRegistrarAbi = require('../contracts/abis/CourseRegistrar.json');
@@ -18,6 +20,8 @@ function CourseView() {
   const [allowances, setAllowances] = useState(0);
   const [balance, setBalance] = useState('');
   const [newAllowance, setNewAllowance] = useState(0);
+
+  const logos = [avalancheLogo, polygonLogo];
 
   useEffect(() => {
     const contractCMON = new ethers.Contract(
@@ -104,6 +108,10 @@ function CourseView() {
               course={course}
               allowance={allowances[i]}
               setNewAllowance={setNewAllowance}
+              setBalance={setBalance}
+              contractCMON={contractCMON}
+              image={logos[i]}
+              id={i}
             />
           </div>
         ))}

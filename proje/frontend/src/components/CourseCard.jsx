@@ -12,6 +12,7 @@ function CourseCard(props) {
   const { courseName, coursePrice, courseAddress, registered } = props.course;
   const [contractCourse, setContractCourse] = useState(null);
   const [isStudent, setIsStudent] = useState(false);
+  const [graduated, setGraduated] = useState(false);
   useEffect(() => {
     const contractCourse = new ethers.Contract(
       courseAddress,
@@ -28,6 +29,11 @@ function CourseCard(props) {
           window.ethereum.selectedAddress
         );
         setIsStudent(isStudent[0]);
+
+        const isGraduated = await contractCourse.isGraduated(
+          window.ethereum.selectedAddress
+        );
+        setGraduated(isGraduated);
       };
       fetchData();
     }
@@ -64,15 +70,48 @@ function CourseCard(props) {
       setIsStudent(isStudent[0]);
     };
     fetchData();
+    const balance = await props.contractCMON.balanceOf(
+      window.ethereum.selectedAddress
+    );
+    props.setBalance(ethers.utils.formatEther(balance).toString());
+  };
+
+  const complete = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(courseAddress, courseAbi, signer);
+
+    let tx = await contract.ping();
+    await tx.wait();
+
+    tx = await contract.ping();
+    await tx.wait();
+    const balance = await props.contractCMON.balanceOf(
+      window.ethereum.selectedAddress
+    );
+    props.setBalance(ethers.utils.formatEther(balance).toString());
+
+    const isGraduated = await contract.isGraduated(
+      window.ethereum.selectedAddress
+    );
+    setGraduated(isGraduated);
   };
 
   const button = () => {
     if (isStudent) {
-      return (
-        <Button variant="primary" disabled>
-          Registered
-        </Button>
-      );
+      if (!graduated) {
+        return (
+          <Button variant="primary" onClick={complete}>
+            Graduate
+          </Button>
+        );
+      } else {
+        return (
+          <Button variant="primary" disabled>
+            Graduated
+          </Button>
+        );
+      }
     } else if (props.allowance.gt(100)) {
       return (
         <Button variant="primary" onClick={register}>
@@ -90,7 +129,18 @@ function CourseCard(props) {
 
   return (
     <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
+      {props.id === 0 ? (
+        <center>
+          <Card.Img
+            variant="top"
+            style={{ width: '13.4rem' }}
+            src={props.image}
+          />
+        </center>
+      ) : (
+        <Card.Img variant="top" src={props.image} />
+      )}
+
       <Card.Body>
         <Card.Title>{courseName}</Card.Title>
         <Card.Text>

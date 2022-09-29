@@ -5,6 +5,7 @@ import { useMetaMask } from 'metamask-react';
 
 function NavBar() {
   const { status, connect, account, chainId, ethereum } = useMetaMask();
+  console.log('status', status);
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -15,12 +16,18 @@ function NavBar() {
             <Nav.Link href="#home">Home</Nav.Link>
           </Nav>
         </Navbar.Collapse>
-        <button
-          className="btn btn-outline-success my-2 my-sm-0"
-          onClick={connect}
-        >
-          Connect
-        </button>
+        {status === 'connected' ? (
+          <button className="btn btn-outline-success my-2 my-sm-0" disabled>
+            Connected
+          </button>
+        ) : (
+          <button
+            className="btn btn-outline-success my-2 my-sm-0"
+            onClick={connect}
+          >
+            Connect
+          </button>
+        )}
       </Container>
     </Navbar>
   );
