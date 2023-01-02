@@ -2,7 +2,7 @@
 
 You can find project of frontend build link below.
 
-https://rad-manatee-4c4a5d.netlify.app/
+https://incredible-zabaione-b34aa8.netlify.app
 
 This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
 
